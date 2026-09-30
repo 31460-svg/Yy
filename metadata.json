@@ -1,0 +1,6 @@
+{
+  "name": "Flower Shop - ร้านดอกไม้ออนไลน์",
+  "description": "ร้านดอกไม้ออนไลน์ คัดสรรดอกไม้สดสวยงาม สำหรับทุกเทศกาลและโอกาสพิเศษ สั่งซื้อง่าย พร้อมระบบจัดส่งและติดตามคำสั่งซื้อ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
