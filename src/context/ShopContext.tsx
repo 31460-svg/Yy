@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { FlowerProduct, CartItem, Order, User, OrderStatus, PaymentMethod } from '../types';
 import { INITIAL_FLOWERS, INITIAL_ORDERS, DEMO_USERS } from '../data/flowers';
+import { safeStorage } from '../utils/storage';
 
 export interface ToastItem {
   id: string;
@@ -67,10 +68,10 @@ interface ShopContextType {
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Products with LocalStorage persistence
+  // Products with SafeStorage persistence
   const [products, setProducts] = useState<FlowerProduct[]>(() => {
     try {
-      const saved = localStorage.getItem('flowershop_products');
+      const saved = safeStorage.getItem('flowershop_products');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -78,10 +79,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return INITIAL_FLOWERS;
   });
 
-  // Cart with LocalStorage persistence
+  // Cart with SafeStorage persistence
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
-      const saved = localStorage.getItem('flowershop_cart');
+      const saved = safeStorage.getItem('flowershop_cart');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -89,10 +90,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return [];
   });
 
-  // Orders with LocalStorage persistence
+  // Orders with SafeStorage persistence
   const [orders, setOrders] = useState<Order[]>(() => {
     try {
-      const saved = localStorage.getItem('flowershop_orders');
+      const saved = safeStorage.getItem('flowershop_orders');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -100,10 +101,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return INITIAL_ORDERS;
   });
 
-  // Users with LocalStorage persistence
+  // Users with SafeStorage persistence
   const [users, setUsers] = useState<User[]>(() => {
     try {
-      const saved = localStorage.getItem('flowershop_users');
+      const saved = safeStorage.getItem('flowershop_users');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -114,7 +115,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Current logged in user (defaults to Demo Customer for immediate smooth testing)
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     try {
-      const saved = localStorage.getItem('flowershop_current_user');
+      const saved = safeStorage.getItem('flowershop_current_user');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -125,7 +126,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Wishlist (favorites)
   const [wishlist, setWishlist] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('flowershop_wishlist');
+      const saved = safeStorage.getItem('flowershop_wishlist');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -141,10 +142,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  // Sync to localStorage
+  // Sync to safeStorage
   useEffect(() => {
     try {
-      localStorage.setItem('flowershop_products', JSON.stringify(products));
+      safeStorage.setItem('flowershop_products', JSON.stringify(products));
     } catch (e) {
       console.error(e);
     }
@@ -152,7 +153,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('flowershop_cart', JSON.stringify(cart));
+      safeStorage.setItem('flowershop_cart', JSON.stringify(cart));
     } catch (e) {
       console.error(e);
     }
@@ -160,7 +161,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('flowershop_orders', JSON.stringify(orders));
+      safeStorage.setItem('flowershop_orders', JSON.stringify(orders));
     } catch (e) {
       console.error(e);
     }
@@ -168,7 +169,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('flowershop_users', JSON.stringify(users));
+      safeStorage.setItem('flowershop_users', JSON.stringify(users));
     } catch (e) {
       console.error(e);
     }
@@ -176,7 +177,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('flowershop_current_user', JSON.stringify(currentUser));
+      safeStorage.setItem('flowershop_current_user', JSON.stringify(currentUser));
     } catch (e) {
       console.error(e);
     }
@@ -184,7 +185,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('flowershop_wishlist', JSON.stringify(wishlist));
+      safeStorage.setItem('flowershop_wishlist', JSON.stringify(wishlist));
     } catch (e) {
       console.error(e);
     }
